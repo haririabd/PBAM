@@ -34,6 +34,8 @@ def certificateForm(request):
 def generate_pdf(request):
     bg_path = os.path.join(settings.STATICFILES_BASE_DIR, 'imgs', 'sijil_pbam_design02.png')
     bg_url = f'file://{bg_path}'
+    sig_path = os.path.join(settings.STATICFILES_BASE_DIR, 'imgs', 'alex_sig.png')
+    sig_url = f'file://{sig_path}'
 
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -41,6 +43,7 @@ def generate_pdf(request):
         html_string = render_to_string('report.html', {
             'name': name,
             'background_image': bg_url,
+            'sig_image': sig_url,
         })
 
         pdf_file = HTML(string=html_string).write_pdf()
