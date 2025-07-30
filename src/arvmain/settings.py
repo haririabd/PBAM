@@ -147,11 +147,6 @@ if ON_RAILWAY:
         'http://*.railway.app',
         ]
 
-# print("DEBUG: ", DEBUG, type(DEBUG))
-# print("ON_RAILWAY: ", ON_RAILWAY, type(ON_RAILWAY))
-# print("ON_CODESPACE: ", ON_CODESPACE, type(ON_CODESPACE))
-# print("CSRF_TRUSTED_ORIGINS: ", CSRF_TRUSTED_ORIGINS)
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
@@ -184,6 +179,10 @@ STATICFILES_DIRS = [
 # output for python manage.py collectstatic
 # local cdn --> prod cdn
 STATIC_ROOT = BASE_DIR / 'local-cdn'
+
+# print("ON_RAILWAY: ", ON_RAILWAY, type(ON_RAILWAY))
+# print("ON_CODESPACE: ", ON_CODESPACE, type(ON_CODESPACE))
+# print("CSRF_TRUSTED_ORIGINS: ", CSRF_TRUSTED_ORIGINS)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

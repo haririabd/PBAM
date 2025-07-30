@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from . import views
-from sijilahli.views import generate_cert
+from sijilahli.views import certificateForm, generate_pdf
 
 ON_CODESPACE = settings.ON_CODESPACE
 
@@ -26,7 +26,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # below is application path
     path('', views.index_view, name='index'),
-    path('sijilahli/', generate_cert, name='generate_cert'),
+    path('sijilahli/', certificateForm, name='certificateForm'),
+    path('generate_pdf/', generate_pdf, name='generate_pdf'),
 ]
 
 if ON_CODESPACE:

@@ -3,29 +3,16 @@
 <!-- prettier-ignore -->
 {% block page_title %}{{ page_title }} - {{ block.super }}{% endblock page_title %}
 
-<!-- prettier-ignore -->
+      <!-- prettier-ignore -->
 {% block visitor %}
-<p>{% include 'snippets/user-msg.html' %}</p>
-{% endblock visitor %} {% block content %}
-<div class="container text-center">
-  <div class="row">
-    <div class="col">
+    <h1>Welcome!</h1>
+      <p>{% include 'snippets/user-msg.html' %}</p>
+{% endblock visitor %}
+{% block content %}
       <p>Welcome to {{ page_title }}</p>
-    </div>
-  </div>
-</div>
-<div class="container text-center">
-  <div class="row">
-    <div class="col">
-      <form action="{% url 'index' %}" method="post">
+      <form action="{% url 'generate_pdf' %}" method="post">
         {% csrf_token %}
-        <input type="text" name="name" required>
+        {{ form.as_p }}
         <button type="submit">Generate</button>
       </form>
-    </div>
-    <div class="col">
-      Column
-    </div>
-  </div>
-</div>
 {% endblock content %}

@@ -1,0 +1,6 @@
+{% load static %}
+
+body {
+    background-image: {% static 'SijilKeahlian2025.png' %};
+
+}

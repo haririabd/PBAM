@@ -10,11 +10,15 @@
   </head>
   <body>
     {% include 'nav/navbar.html' %}
-    <h1>Welcome!</h1>
-    {% block visitor %}{% endblock visitor %}
-    <!-- prettier-ignore -->
-    {% block content %}{% endblock content %}
-
+    <div class="container text-center">
+      <div class="row">
+        <div class="col">
+          {% block visitor %}{% endblock visitor %}
+          <!-- prettier-ignore -->
+          {% block content %}{% endblock content %}
+        </div>
+      </div>
+    </div>
     {% include 'base/bottomjs.html' %}
   </body>
 </html>
