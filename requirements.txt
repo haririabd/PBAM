@@ -9,4 +9,5 @@ pillow
 pydyf
 tinycss2
 tinyhtml5
+pango
 weasyprint
