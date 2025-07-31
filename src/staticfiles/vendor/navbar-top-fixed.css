@@ -1,4 +1,8 @@
 body {
-  min-height: 75rem;
-  padding-top: 4.5rem;
+  min-height: 100vh;
+  padding-top: 10em;
+}
+
+.container-fluid {
+  min-height: 85px;
 }
