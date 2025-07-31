@@ -1,4 +1,12 @@
 Django
 python-decouple
+pyphen
 dj_database_url
+cffi
+cssselect2
+fonttools
+pillow
+pydyf
+tinycss2
+tinyhtml5
 weasyprint
