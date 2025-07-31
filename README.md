@@ -3,6 +3,22 @@
 ## Project Overview
 This project is a web application built with Django, designed to support the administrative and operational needs of Persatuan Bahasa Arab Malaysia (PBAM). The initial phase of this application focuses on providing a streamlined solution for generating membership certificates for PBAM members.
 
+## Project Structure
+### Public Link : Overview
+* App homepage: member.pbam.org.my
+
+* Login Page: member.pbam.org.my/login
+
+* Register Page: member.pbam.org.my/registration
+
+* Membership Status Page: member.pbam.org.my/membership
+
+* Request Membership Certificate: member.pbam.org.my/request-certificate
+
+### Private Link : Overview
+
+* Admin Page: member.pbam.org.my/TBA
+
 ## Features
 ### Current Features
 * Membership Certificate Generation: A dedicated page allows for the input of member details and the generation of a professional membership certificate.
