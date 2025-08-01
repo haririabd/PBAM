@@ -50,6 +50,11 @@ ENV DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
 ARG DJANGO_DEBUG=0
 ENV DJANGO_DEBUG=${DJANGO_DEBUG}
 
+# database isn't available during build
+# run only commands that do not need the database
+RUN python manage.py vendor_pull
+RUN python manage.py collectstatic --noinput
+
 # Define Django project name
 ARG PROJ_NAME="arvmain"
 
