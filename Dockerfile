@@ -58,7 +58,6 @@ ENV DJANGO_DEBUG=${DJANGO_DEBUG}
 # run any other commands that do not need the database
 # such as:
 # RUN python manage.py collectstatic --noinput
-RUN weasyprint --version
 
 # set the Django default project name
 ARG PROJ_NAME="arvmain"
@@ -69,6 +68,7 @@ ARG PROJ_NAME="arvmain"
 RUN printf "#!/bin/bash\n" > ./paracord_runner.sh && \
     printf "RUN_PORT=\"\${PORT:-8000}\"\n\n" >> ./paracord_runner.sh && \
     printf "python manage.py migrate --no-input\n" >> ./paracord_runner.sh && \
+    printf "weasyprint --version\n" >> ./paracord_runner.sh && \
     printf "gunicorn ${PROJ_NAME}.wsgi:application --bind \"[::]:\$RUN_PORT\"\n" >> ./paracord_runner.sh
 
 # make the bash script executable
