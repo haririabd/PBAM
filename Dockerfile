@@ -68,7 +68,6 @@ ARG PROJ_NAME="arvmain"
 RUN printf "#!/bin/bash\n" > ./paracord_runner.sh && \
     printf "RUN_PORT=\"\${PORT:-8000}\"\n\n" >> ./paracord_runner.sh && \
     printf "python manage.py migrate --no-input\n" >> ./paracord_runner.sh && \
-    printf "weasyprint --version\n" >> ./paracord_runner.sh && \
     printf "gunicorn ${PROJ_NAME}.wsgi:application --bind \"[::]:\$RUN_PORT\"\n" >> ./paracord_runner.sh
 
 # make the bash script executable
@@ -82,4 +81,5 @@ RUN apt-get remove --purge -y \
 
 # Run the Django project via the runtime script
 # when the container starts
+CMD weasyprint --version
 CMD ./paracord_runner.sh
