@@ -26,12 +26,6 @@ RUN apt-get update && apt-get install -y \
     libcairo2 \
     # other
     gcc \
-    # for WeasyPrint
-    libgobject-2.0-0 \
-    libpango-1.0-0 \
-    libgdk-pixbuf2.0-0 \
-    libffi-dev \
-    WeasyPrint \
     && rm -rf /var/lib/apt/lists/*
 
 # Create the mini vm's code directory
@@ -46,6 +40,10 @@ COPY requirements_railway.txt /tmp/requirements_railway.txt
 
 # copy the project code into the container's working directory
 COPY ./src /code
+
+# Install WeasyPrint dependencies for our mini vm
+ARG NIXPACKS_PKGS=libgobject-2.0-0 libcairo2 libpango-1.0-0 libgdk-pixbuf2.0-0 libffi-dev
+ENV NIXPACKS_PKGS=${NIXPACKS_PKGS}
 
 # Install the Python project requirements
 RUN pip install -r /tmp/requirements_railway.txt
