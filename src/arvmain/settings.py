@@ -56,6 +56,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -181,6 +182,13 @@ STATICFILES_DIRS = [
 # output for python manage.py collectstatic
 # local cdn --> prod cdn
 STATIC_ROOT = BASE_DIR / 'local-cdn'
+
+# forever-cacheable files and compression support for whitenoise
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # print("ON_RAILWAY: ", ON_RAILWAY, type(ON_RAILWAY))
 # print("ON_CODESPACE: ", ON_CODESPACE, type(ON_CODESPACE))

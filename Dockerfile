@@ -51,7 +51,7 @@ ARG DJANGO_DEBUG=0
 ENV DJANGO_DEBUG=${DJANGO_DEBUG}
 
 # database isn't available during build
-# run only commands that do not need the database
+# run only commands that do not need the database. can remove when we use s3
 RUN python manage.py vendor_pull
 RUN python manage.py collectstatic --noinput
 
