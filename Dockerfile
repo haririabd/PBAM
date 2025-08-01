@@ -1,85 +1,56 @@
-# Set the python version as a build-time argument
-# with Python 3.12 as the default
-ARG PYTHON_VERSION=3.12-slim-bullseye
-FROM python:${PYTHON_VERSION}
+# Use python 3.12-slim as the base image
+FROM python:3.12-slim-bullseye
 
-# Create a virtual environment
-RUN python -m venv /opt/venv
+# Install system dependencies for WeasyPrint and other libraries
+# THIS IS THE CRITICAL STEP THAT REPLACES THE NIXPACKS VARIABLE
+# It tells the Docker builder to use the container's package manager
+# to install the required system libraries.
+RUN apt-get update && apt-get install -y \
+    libcairo2 \
+    libpango-1.0-0 \
+    libpangocairo-1.0-0 \
+    libgdk-pixbuf2.0-0 \
+    libffi-dev \
+    shared-mime-info \
+    libgobject-2.0-0 \
+    libpq-dev \
+    libjpeg-dev \
+    gcc \
+    # Good practice to clean up apt cache in a single command
+    && apt-get autoremove -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# Set the virtual environment as the current location
-ENV PATH=/opt/venv/bin:$PATH
-
-# Upgrade pip
-RUN pip install --upgrade pip
+# The rest of your Dockerfile, simplified and corrected
+# ... (removed the unnecessary virtual environment setup and NIXPACKS_PKGS lines)
 
 # Set Python-related environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# Install os dependencies for our mini vm
-RUN apt-get update && apt-get install -y \
-    # for postgres
-    libpq-dev \
-    # for Pillow
-    libjpeg-dev \
-    # for CairoSVG
-    libcairo2 \
-    # other
-    gcc \
-    && rm -rf /var/lib/apt/lists/*
-
-# Create the mini vm's code directory
-RUN mkdir -p /code
-
-# Set the working directory to that same code directory
+# Create and set the working directory
 WORKDIR /code
 
-# Copy the requirements file into the container
-COPY requirements.txt /tmp/requirements.txt
-COPY requirements_railway.txt /tmp/requirements_railway.txt
+# Copy the requirements file and install Python dependencies
+COPY requirements.txt requirements_railway.txt ./
+# The --no-cache-dir flag helps keep image size small
+RUN pip install --no-cache-dir -r requirements_railway.txt
 
-# copy the project code into the container's working directory
+# Copy the project code
 COPY ./src /code
 
-# Install WeasyPrint dependencies for our mini vm
-ARG NIXPACKS_PKGS=libgobject-2.0-0 libcairo2 libpango-1.0-0 libgdk-pixbuf2.0-0 libffi-dev
-ENV NIXPACKS_PKGS=${NIXPACKS_PKGS}
-
-# Install the Python project requirements
-RUN pip install -r /tmp/requirements_railway.txt
-
-ARG DJANGO_SECRET_KEY
-ENV DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
-
-ARG DJANGO_DEBUG=0
-ENV DJANGO_DEBUG=${DJANGO_DEBUG}
-
-# database isn't available during build
-# run any other commands that do not need the database
-# such as:
-# RUN python manage.py collectstatic --noinput
-
-# set the Django default project name
+# Define Django project name
 ARG PROJ_NAME="arvmain"
 
-# create a bash script to run the Django project
-# this script will execute at runtime when
-# the container starts and the database is available
+# Create a bash script to run the Django project
+# The original script is fine, so we will keep it.
 RUN printf "#!/bin/bash\n" > ./paracord_runner.sh && \
     printf "RUN_PORT=\"\${PORT:-8000}\"\n\n" >> ./paracord_runner.sh && \
     printf "python manage.py migrate --no-input\n" >> ./paracord_runner.sh && \
     printf "gunicorn ${PROJ_NAME}.wsgi:application --bind \"[::]:\$RUN_PORT\"\n" >> ./paracord_runner.sh
 
-# make the bash script executable
+# Make the bash script executable
 RUN chmod +x paracord_runner.sh
 
-# Clean up apt cache to reduce image size
-RUN apt-get remove --purge -y \
-    && apt-get autoremove -y \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-# Run the Django project via the runtime script
-# when the container starts
-CMD weasyprint --version
-CMD ./paracord_runner.sh
+# This is the final CMD instruction. It will override any previous ones.
+CMD ["./paracord_runner.sh"]
