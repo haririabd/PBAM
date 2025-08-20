@@ -27,7 +27,8 @@ def certificateForm(request):
     context = {
         "message": m,
         "page_title": page_title,
-        "form": form
+        "form": form,
+        "sijil_page": 'active',
     }
     return render(request, html_template, context)
 

@@ -1,5 +1,9 @@
-<div>
-  {% if request.user.is_authenticated %} Welcome user {{ request.user }}
+<div class="container">
+  {% if request.user.is_authenticated %}
   <!-- prettier-ignore -->
+    <p>Welcome to {{ page_title }}</p>
+    <h1>You are logged in!</h1>
+    <p>Username : {{ owner }}</p>
+    <p>Last logged in: {{ owner.last_login }}</p>
   {% else %} You are not logged in {% endif %}
 </div>

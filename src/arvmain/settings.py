@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'commando',
     'pdf_generator',
     'sijilahli',
+    'members',
 ]
 
 MIDDLEWARE = [

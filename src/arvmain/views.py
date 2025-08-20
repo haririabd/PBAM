@@ -6,5 +6,6 @@ def index_view(request, *args, **kwargs):
 
     context = {
         "page_title": page_title,
+        "home_page": 'active',
     }
     return render(request, html_template, context)

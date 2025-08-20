@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from . import views
+from members.views import user_profile_detail
 from sijilahli.views import certificateForm, generate_pdf
 
 ON_CODESPACE = settings.ON_CODESPACE
@@ -26,6 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # below is application path
     path('', views.index_view, name='index'),
+    path('profile/', user_profile_detail, name='user_profile'),
     path('sijilahli/', certificateForm, name='certificateForm'),
     path('generate_pdf/', generate_pdf, name='generate_pdf'),
 ]
