@@ -1,0 +1,11 @@
+<!-- prettier-ignore -->
+{% block content %}
+<div>
+    <p>Welcome to {{ page_title }}</p>
+    <form action="{% url 'generate_pdf' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Generate</button>
+    </form>
+</div>
+{% endblock content %}
